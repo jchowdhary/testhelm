@@ -1,0 +1,24 @@
+{{- if .Values.service.clusterIPEnabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.clusteripservice.name }}
+  namespace: {{.Release.Namespace}}
+  labels:
+    helm.sh/chart: {{ include "micollab.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}  
+spec:
+  clusterIP: {{ .Values.clusteripservice.clusterIP }}
+  ports:
+  {{- range .Values.clusteripservice.ports }}
+  - name: {{.name}}
+    port: {{ .port }}
+    protocol: {{.protocol}}
+    targetPort: {{.targetPort}}
+  {{- end }}
+  selector:
+    {{ .Values.deployment.labelSelector }}: {{ .Values.deployment.labelValue }}
+  sessionAffinity: {{ .Values.clusteripservice.sessionAffinity }}
+  type: {{ .Values.clusteripservice.type }}
+{{- end }}

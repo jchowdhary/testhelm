@@ -1,0 +1,7 @@
+#dependencies:
+#- name: mivb
+#  version: "0.1.30"
+#  repository: "https://harbor1a.mitelucslab.ca/chartrepo/mitel-helm-charts/"
+#- name: mbglite
+#  version: "0.1.11"
+#  repository: "https://harbor1a.mitelucslab.ca/chartrepo/mitel-helm-charts/"

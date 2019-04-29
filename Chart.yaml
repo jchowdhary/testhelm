@@ -1,0 +1,17 @@
+apiVersion: v1
+description: |
+  MiCollab
+  
+  It's a unified communication and collaboration platform. This is a base chart for MiCollab image, which will be composed with others to build an application bundle.
+name: micollab
+version: 0.1.0
+keywords:
+  - MiCollab
+home: http://mitel.com
+maintainers: # (optional)
+  - name: Jayant Chaudhary
+    email: jayant.chaudhary@contractor.mitel.com
+icon: https://www.mitel.com/-/media/mitel/images/mitel-logo-mobile.png
+appVersion: 9.1.0.19-01
+deprecated: no
+

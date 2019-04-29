@@ -1,0 +1,119 @@
+# Default values for micollab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+deployment:
+  deadlineSec: 600
+  limit: 10
+  labelSelector: "run"
+  labelValue: "my-micollab"
+  policy: ClusterFirst
+  
+someSelector: "micollab-label"
+someSelectorValue: "micollab-node"
+
+persistentVolume: micollabvolume
+persistentVolumeSize: 100Gi
+  
+stage: "dev"
+
+image:
+  repository_dev: gcr.io/kubeapps-234209/
+  repository_int: gcr.io/kubeapps-234209/
+  repository: gcr.io/kubeapps-234209/
+  micollabimage: appshell
+  tag: 1.0
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+clusteripservice:
+  type: ClusterIP
+  name: micollab-ip
+  clusterIP: 10.59.240.2
+  sessionAffinity: None
+  ports:
+    - port: 22
+      targetPort: 22
+      protocol: TCP
+      name: 22-to-22-tcp
+    - port: 7050
+      targetPort: 7050
+      protocol: TCP
+      name: 7050-to-7050-tcp
+
+service:
+  clusterIPEnabled: true
+
+
+loadbalancerservice:
+  type: LoadBalancer
+  name: micollab-service
+  clusterIP: 10.59.240.3
+  sessionAffinity: None
+  ports:
+    - name: 80-to-80-tcp
+      nodePort: 30398
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: 443-to-443-tcp
+      nodePort: 31092
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    - name: 22-to-22-tcp
+      nodePort: 32517
+      port: 22
+      protocol: TCP
+      targetPort: 22
+    - name: 36008-to-36008-tcp
+      nodePort: 31564
+      port: 36008
+      protocol: TCP
+      targetPort: 36008
+    - name: 4443-to-4443-tcp
+      nodePort: 30697
+      port: 4443
+      protocol: TCP
+      targetPort: 4443
+    - name: 7050-to-7050-tcp
+      nodePort: 30698
+      port: 7050
+      protocol: TCP
+      targetPort: 7050
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

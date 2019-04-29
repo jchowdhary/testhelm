@@ -1,0 +1,13 @@
+Thank you for installing {{ .Chart.Name }}.
+This is a MiCollab component with exposed Services.
+
+Your release is named {{ .Release.Name }}.
+
+This image can be launched independent for testing and for production, all relevant dependencies should be downloaded and packaged as a single chart when doing "helm package micollab". To execute the dependencies, check the requirements.yaml in the dependencies section.This should be executed prior to run the MiCollab in Production enviorment.We need to use the command "helm dependency update micollab" which would check thed dependencies in requirements.yaml and execute them following with main MiCollab.
+
+NOTE: Currently, since proper permission is not available.. we would not be able to get the dependencies here. This step should be done only when the repo is available.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get {{ .Release.Name }}
