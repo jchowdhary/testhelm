@@ -4,7 +4,7 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
   generation: 1
-  name: {{ include "micollab.fullname" . }}
+  name: {{ .Values.deployment.name }}
   namespace: {{.Release.Namespace}}
   labels:
     helm.sh/chart: {{ include "micollab.chart" . }}
@@ -23,9 +23,9 @@ spec:
         {{ .Values.deployment.labelSelector }}: {{ .Values.deployment.labelValue }}
     spec:
       containers:
-        image: "{{ .Values.image.repository }}{{.Values.image.micollabimage}}:{{ .Values.image.tag }}"
+      - image: {{ .Values.image.repository }}{{.Values.image.micollabimage}}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        name: {{ .Chart.Name }}
+        name: {{ .Values.deployment.name }}
         resources: {}
         securityContext:
           allowPrivilegeEscalation: true

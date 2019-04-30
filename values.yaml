@@ -5,6 +5,7 @@
 replicaCount: 1
 
 deployment:
+  name: micollab
   deadlineSec: 600
   limit: 10
   labelSelector: "run"
@@ -14,25 +15,25 @@ deployment:
 someSelector: "micollab-label"
 someSelectorValue: "micollab-node"
 
-persistentVolume: micollabvolume
-persistentVolumeSize: 100Gi
+#persistentVolume: micollabvolume
+#persistentVolumeSize: 100Gi
   
 stage: "dev"
 
 image:
-  repository_dev: gcr.io/kubeapps-234209/
-  repository_int: gcr.io/kubeapps-234209/
-  repository: gcr.io/kubeapps-234209/
-  micollabimage: appshell
-  tag: 1.0
-  pullPolicy: IfNotPresent
+  repository_dev: "gcr.io/integration-238016/micollab:9.0.0.2-06/"
+  repository_int: "gcr.io/integration-238016/"
+  repository: "gcr.io/integration-238016/"
+  micollabimage: "micollab"
+  tag: "9.0.0.2-06"
+  pullPolicy: "IfNotPresent"
 
 nameOverride: ""
 fullnameOverride: ""
 
 clusteripservice:
   type: ClusterIP
-  name: micollab-ip
+  name: "micollab-ip"
   clusterIP: 10.59.240.2
   sessionAffinity: None
   ports:
@@ -46,7 +47,7 @@ clusteripservice:
       name: 7050-to-7050-tcp
 
 service:
-  clusterIPEnabled: true
+  clusterIPEnabled: false
 
 
 loadbalancerservice:
