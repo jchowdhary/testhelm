@@ -17,6 +17,11 @@ spec:
   selector:
     matchLabels:
       {{ .Values.deployment.labelSelector }}: {{ .Values.deployment.labelValue }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -37,26 +42,26 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         tty: true
-{{- if .Values.persistentVolume }}		
+{{- if .Values.volume.volumeCreated }}		
         volumeMounts:
         - name: micollab-data
-          mountPath: /var/lib/ldap/
-          subPath: ldap
-        - name: micollab-data
-          mountPath: /home/e-smith/db/
-          subPath: homeesmith
-        - name: micollab-data
-          mountPath: /etc/e-smith/
-          subPath: etcesmith
-        - name: micollab-data
-          mountPath: /var/log/
-          subPath: logs
-        - name: micollab-data
           mountPath: /var/lib/pgsql/10/data
-          subPath: db
+          subPath: mnt/db/
         - name: micollab-data
-          mountPath: /sbin/e-smith/db
-          subPath: sbinesmith		  
+          mountPath: /home/e-smith/db
+          subPath: mnt/homeesmith/
+        - name: micollab-data
+          mountPath: /var/lib/ldap/
+          subPath: mnt/ldap/
+        - name: micollab-data
+          mountPath: /etc/e-smith/db
+          subPath: mnt/etc/
+        - name: micollab-data
+          mountPath: /var/log/awc
+          subPath: mnt/awclogs/
+        - name: micollab-data
+          mountPath: /var/log/e-smith
+          subPath: mnt/esmithlogs/		  
 {{- end }}		  
       dnsPolicy: {{ .Values.deployment.policy }}
 {{- if .Values.someSelector }}	  
@@ -67,12 +72,9 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-{{- if .Values.persistentVolume }}	  
+{{- if .Values.volume.volumeCreated }}	  
       volumes:
       - name: micollab-data
         persistentVolumeClaim: 
-          claimName: {{.Values.persistentVolume}}
+          claimName: {{.Values.volume.persistentVolume}}
 {{- end }}
-# - name: pgsql-data
-#persistentVolumeClaim:
-#  claimName: postgres-pgsql-pvc

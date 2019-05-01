@@ -1,8 +1,8 @@
-{{- if .Values.persistentVolume }}
+{{- if .Values.volume.mountEnabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{.Values.persistentVolume}}
+  name: {{.Values.volume.persistentVolume}}
   namespace: {{.Release.Namespace}}
   labels:
     helm.sh/chart: {{ include "micollab.chart" . }}
@@ -13,6 +13,6 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{.Values.persistentVolumeSize}}
+      storage: {{.Values.volume.persistentVolumeSize}}
   storageClassName: standard
 {{- end }}

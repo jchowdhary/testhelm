@@ -5,11 +5,11 @@
 replicaCount: 1
 
 deployment:
-  name: micollab
+  name: micollab-helm
   deadlineSec: 600
   limit: 10
   labelSelector: "run"
-  labelValue: "my-micollab"
+  labelValue: "my-micollab-helm"
   policy: ClusterFirst
   
 someSelector: "micollab-label"
@@ -21,11 +21,11 @@ someSelectorValue: "micollab-node"
 stage: "dev"
 
 image:
-  repository_dev: "gcr.io/integration-238016/micollab:9.0.0.2-06/"
+  repository_dev: "gcr.io/projects-jayant/micollab:9.0.0.2-04/"
   repository_int: "gcr.io/integration-238016/"
-  repository: "gcr.io/integration-238016/"
+  repository: "gcr.io/projects-jayant/"
   micollabimage: "micollab"
-  tag: "9.0.0.2-06"
+  tag: "9.0.0.2-04"
   pullPolicy: "IfNotPresent"
 
 nameOverride: ""
@@ -33,8 +33,8 @@ fullnameOverride: ""
 
 clusteripservice:
   type: ClusterIP
-  name: "micollab-ip"
-  clusterIP: 10.59.240.2
+  name: "micollab-helm-clusterip"
+  clusterIP: 10.59.240.4
   sessionAffinity: None
   ports:
     - port: 22
@@ -46,14 +46,20 @@ clusteripservice:
       protocol: TCP
       name: 7050-to-7050-tcp
 
+volume:
+  mountEnabled: false
+  volumeCreated: true
+  persistentVolume: micollab-pvc
+  persistentVolumeSize: 50Gi
+
 service:
-  clusterIPEnabled: false
+  clusterIPEnabled: true
 
 
 loadbalancerservice:
   type: LoadBalancer
-  name: micollab-service
-  clusterIP: 10.59.240.3
+  name: micollab-helm-service
+  clusterIP: 10.59.240.5
   sessionAffinity: None
   ports:
     - name: 80-to-80-tcp
