@@ -34,7 +34,7 @@ fullnameOverride: ""
 clusteripservice:
   type: ClusterIP
   name: "micollab-helm-clusterip"
-  clusterIP: 10.59.240.4
+  clusterIP: 10.23.240.3
   sessionAffinity: None
   ports:
     - port: 22
@@ -59,7 +59,7 @@ service:
 loadbalancerservice:
   type: LoadBalancer
   name: micollab-helm-service
-  clusterIP: 10.59.240.5
+  clusterIP: 10.23.240.4
   sessionAffinity: None
   ports:
     - name: 80-to-80-tcp
